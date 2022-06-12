@@ -56,7 +56,7 @@ public class Main {
 
     // TODO nanti aku nambahin
     private static void manageUser() {
-
+        CustomerMenu.showCustomerMenu();
     }
 
     private static int searchBook(String id) {

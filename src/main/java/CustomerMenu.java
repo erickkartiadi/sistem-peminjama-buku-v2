@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class CustomerMenu {
-    SimpleDateFormat dateInput = new SimpleDateFormat("dd/MM/yyyy");
-    Scanner scan = new Scanner(System.in);
-    ArrayList<Customer> customerArrayList = new ArrayList<>();
+public final class CustomerMenu {
+    static SimpleDateFormat dateInput = new SimpleDateFormat("dd/MM/yyyy");
+    static Scanner scan = new Scanner(System.in);
+    static ArrayList<Customer> customerArrayList = new ArrayList<>();
 
-    public CustomerMenu() {
+    public static void showCustomerMenu() {
         int choose;
 
         do {
@@ -41,16 +41,12 @@ public class CustomerMenu {
         } while (choose != 5);
     }
 
-    public static void main(String[] args) {
-        new CustomerMenu();
-    }
-
     public static boolean validateEmail(String emailAddress) {
         String regexPattern = "^(.+)@(\\S+)$";
         return Pattern.compile(regexPattern).matcher(emailAddress).matches();
     }
 
-    private void addNewUser() {
+    public static void addNewUser() {
         String username;
         String email;
         Date DOB;
@@ -66,7 +62,7 @@ public class CustomerMenu {
         customerArrayList.add(newCustomer);
     }
 
-    private String inputPhoneNumber() {
+    public static String inputPhoneNumber() {
         String phoneNumber;
         do {
             System.out.print("Input phone number [11-13]: ");
@@ -84,7 +80,7 @@ public class CustomerMenu {
         return phoneNumber;
     }
 
-    private Date inputDOB() {
+    public static Date inputDOB() {
         Date DOB;
         do {
             System.out.print("Input date of birth [dd/MM/yyyy]: ");
@@ -100,7 +96,7 @@ public class CustomerMenu {
         return DOB;
     }
 
-    private String inputEmail() {
+    public static String inputEmail() {
         String email;
         do {
             System.out.print("Input email: ");
@@ -116,7 +112,7 @@ public class CustomerMenu {
         return email;
     }
 
-    private String inputUsername() {
+    public static String inputUsername() {
         String username;
         do {
             System.out.print("Input username [5..20]: ");
@@ -133,7 +129,7 @@ public class CustomerMenu {
         return username;
     }
 
-    private void showUser() {
+    public static void showUser() {
         int customerArrayListLen = customerArrayList.size();
         if (customerArrayListLen <= 0) {
             System.out.println("Customer list is empty");
@@ -159,7 +155,7 @@ public class CustomerMenu {
         System.out.println("+----+" + "------------------------------------+" + "------------------------+" + "------------------------------------+" + "------------+" + "---------------+" + "------------+");
     }
 
-    private void editUser() {
+    public static void editUser() {
         int customerArrayListLen = customerArrayList.size();
         if (customerArrayListLen <= 0) {
             System.out.println("Customer list is empty");
@@ -168,17 +164,13 @@ public class CustomerMenu {
 
 
         showUser();
-        int number = 0;
+        int number;
         do {
             System.out.print("Input number to edit [1.." + customerArrayListLen + "]:");
             number = scan.nextInt();
             scan.nextLine();
 
-            if (number <= customerArrayListLen && number >= 0) {
-                break;
-            }
-
-        } while (true);
+        } while (number > customerArrayListLen || number < 0);
 
         Customer currentCustomer = customerArrayList.get(number - 1);
 
@@ -215,7 +207,7 @@ public class CustomerMenu {
         } while (choose != 5);
     }
 
-    private void deleteUser() {
+    public static void deleteUser() {
         int customerArrayListLen = customerArrayList.size();
         if (customerArrayListLen <= 0) {
             System.out.println("Customer list is empty");
@@ -223,17 +215,13 @@ public class CustomerMenu {
         }
 
         showUser();
-        int number = 0;
+        int number;
         do {
             System.out.print("Input number to delete [1.." + customerArrayListLen + "]:");
             number = scan.nextInt();
             scan.nextLine();
 
-            if (number <= customerArrayListLen && number >= 0) {
-                break;
-            }
-
-        } while (true);
+        } while (number > customerArrayListLen || number < 0);
         customerArrayList.remove(number - 1);
     }
 
