@@ -54,7 +54,6 @@ public class Main {
         } while (choose != 9);
     }
 
-    // TODO nanti aku nambahin
     private static void manageUser() {
         CustomerMenu.showCustomerMenu();
     }
@@ -258,22 +257,22 @@ public class Main {
     }
 
     private static void removeBook() {
-        // TODO ganti remove dari index jadi ID
-        int bookNumber;
+        String bookId;
         viewBooks();
-        System.out.print("Enter the number of the book you want to delete: ");
-        bookNumber = Integer.parseInt(scan.nextLine());
+        System.out.print("Enter the book id you want to delete: ");
+        bookId = scan.nextLine();
 
-        books.remove(bookNumber - 1);
+        books.remove(searchBook(bookId));
     }
 
     private static void editBook() {
-        int bookNumber;
+        String bookId;
         viewBooks();
-        System.out.print("Enter the number of the book you want to edit: ");
-        bookNumber = Integer.parseInt(scan.nextLine());
+        System.out.print("Enter the book id you want to edit: ");
+        bookId = scan.nextLine();
 
-        Book book = books.get(bookNumber - 1);
+        Book book = books.get(searchBook(bookId));
+
         int choose;
         do {
             System.out.println("Which attribute you want to edit");
