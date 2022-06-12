@@ -19,7 +19,8 @@ public class Main {
             System.out.println("6. Return book");
             System.out.println("7. Show Transaction");
             System.out.println("8. Manage User");
-            System.out.println("9. Exit");
+            System.out.println("9. Customer List");
+            System.out.println("10. Borrowed Book List");
             System.out.print("Choose >> ");
             choose = scan.nextInt();
             scan.nextLine();
@@ -49,9 +50,15 @@ public class Main {
                 case 8:
                     manageUser();
                     break;
+                case 9:
+                    customerList();
+                    break;
+                case 10:
+                    borrowedBookList();
+                    break;
 
             }
-        } while (choose != 9);
+        } while (choose != 11);
     }
 
     private static void manageUser() {
@@ -74,6 +81,16 @@ public class Main {
             Transaction data = transactionList.get(i);
 
             if (data.getTransactionId().toString().equals(id)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private static int searchCustomer(String id) {
+        for (int i = 0; i < CustomerMenu.customerArrayList.size(); i++) {
+            User data = CustomerMenu.customerArrayList.get(i);
+            if (((Customer)data).getCustomerID().toString().equals(id)) {
                 return i;
             }
         }
@@ -113,6 +130,7 @@ public class Main {
             }
         } while (true);
 
+        String custId;
         do {
             System.out.println();
             System.out.println("The borrowed book list: ");
@@ -135,7 +153,13 @@ public class Main {
 
             } while (inp < 1 || inp > 3);
 
+            // EDIT HERE - ANDRE
             if (inp == 1) {
+                customerList();
+                do {
+                    System.out.println("Enter CustomerID of borrower :");
+                    custId = scan.nextLine();
+                } while (searchCustomer(custId)==-1);
                 break;
             } else if (inp == 2) {
                 for (int i = 0; i < num; i++) {
@@ -210,7 +234,7 @@ public class Main {
                 borrowedBook.add(new BorrowedBook(data.getBookId(), data.getBookName(), data.getBookEdition()));
             }
             // TODO ganti customer_id
-            transactionList.add(new Transaction(localDate, "TES", tranId, borrowedBook));
+            transactionList.add(new Transaction(localDate, custId, tranId, borrowedBook));
 
         } else {
             System.out.println("You don't have book on the borrowed list");
@@ -407,4 +431,30 @@ public class Main {
         scan.nextLine();
     }
 
+    private static void customerList() {
+        int number = 0;
+        System.out.println("+-----+------------------------------------+--------------------+--------------------+");
+        System.out.println("| No. |Customer Id                         | Max Book Limit     | Customer Rank      |");
+        System.out.println("+-----+------------------------------------+--------------------+--------------------+");
+        for (Customer currentCustomer : CustomerMenu.customerArrayList) {
+            number++;
+            System.out.printf("|%-5s|%-36s|%-20s|%-20s|%n", number, currentCustomer.getCustomerID(), currentCustomer.getMaxBookLimit(), currentCustomer.getCustomerRank());
+        }
+        System.out.println("+-----+------------------------------------+--------------------+--------------------+");
+        System.out.println();
+    }
+
+    private static void borrowedBookList() {
+        int number = 0;
+        System.out.println("+-----+------------------------------------+--------------------+--------------------+");
+        System.out.println("| No. |Book Id                             | Book Name          | Book Edition       |");
+        System.out.println("+-----+------------------------------------+--------------------+--------------------+");
+        for (BorrowedBook currentBorrow : borrowedBook) {
+            number++;
+            System.out.printf("|%-5s|%-36s|%-20s|%-20s|%n", number, currentBorrow.getBookId(), currentBorrow.getBookName(), currentBorrow.getBookEdition());
+        }
+        System.out.println("+-----+------------------------------------+--------------------+--------------------+");
+        System.out.println();
+
+    }    
 }
