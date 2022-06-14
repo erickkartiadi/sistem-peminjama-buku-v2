@@ -18,9 +18,10 @@ public class Main {
             System.out.println("5. Borrow book");
             System.out.println("6. Return book");
             System.out.println("7. Show Transaction");
-            System.out.println("8. Manage User");
-            System.out.println("9. Customer List");
-            System.out.println("10. Borrowed Book List");
+            System.out.println("8. Show History");
+            System.out.println("9. Manage User");
+            System.out.println("10. Customer List");
+            System.out.println("11. Borrowed Book List");
             System.out.print("Choose >> ");
             choose = scan.nextInt();
             scan.nextLine();
@@ -48,12 +49,15 @@ public class Main {
                     showTransaction();
                     break;
                 case 8:
-                    manageUser();
+                    showHistory();
                     break;
                 case 9:
-                    customerList();
+                    manageUser();
                     break;
                 case 10:
+                    customerList();
+                    break;
+                case 11:
                     borrowedBookList();
                     break;
 
@@ -234,7 +238,7 @@ public class Main {
                 borrowedBook.add(new BorrowedBook(data.getBookId(), data.getBookName(), data.getBookEdition()));
             }
             // TODO ganti customer_id
-            transactionList.add(new Transaction(localDate, custId, tranId, borrowedBook));
+            transactionList.add(new Transaction(localDate, custId, tranId,false, borrowedBook));
 
         } else {
             System.out.println("You don't have book on the borrowed list");
@@ -256,6 +260,43 @@ public class Main {
             System.out.println("Transaction Id: " + data.getTransactionId());
             System.out.println("Customer Id: " + data.getcustomerId());
             System.out.println("");
+        }
+        do {
+            System.out.println("Choose No. of transaction to view borrowed book list");
+            in = scan.nextInt();
+        } while (in <= 0 || in > transactionList.size());
+
+        System.out.println("");
+
+        if (in == 0) {
+            return;
+        } else {
+            Vector<BorrowedBook> borrow = transactionList.get(in - 1).getBorrowedBookList();
+            System.out.println("List of borrowed book: ");
+            for (int j = 0; j < borrow.size(); j++) {
+                System.out.println((j + 1) + ". ");
+                System.out.println("BookId: " + borrow.get(j).getBookId());
+                System.out.println("Title: " + borrow.get(j).getBookName());
+                System.out.println("Edition: " + borrow.get(j).getBookEdition());
+                System.out.println("");
+            }
+        }
+
+    }
+
+    private static void showHistory() {
+        Integer in;
+
+        for (int i = 0; i < transactionList.size(); i++) {
+            Transaction data = transactionList.get(i);
+            if(data.getIsReturned() == false){
+                continue;
+            } else {
+                System.out.println("No." + (i + 1));
+                System.out.println("Transaction Id: " + data.getTransactionId());
+                System.out.println("Customer Id: " + data.getcustomerId());
+                System.out.println("");
+            }
         }
         do {
             System.out.println("Choose No. of transaction to view borrowed book list");
@@ -395,40 +436,23 @@ public class Main {
         }
 
         System.out.println("Do you want to return all books? [Y|N]: ");
-        String returnAll = scan.nextLine();
-        if (returnAll.equals("Y")) {
+        String returnConfirmation = scan.nextLine();
+
+        if(returnConfirmation.equals("Y")){
             for (int i = 0; i < borrow.size(); i++) {
                 Integer bookIndex = searchBook(borrow.get(i).getBookId().toString());
                 Book temp = books.get(bookIndex);
                 books.set(bookIndex, new Book(temp.getBookId(), temp.getBookName(), temp.getBookEdition(), temp.getBookQuantity() + 1));
             }
-        } else {
-            while (true) {
-                for (int i = 0; i < borrow.size(); i++) {
-                    System.out.println((i + 1) + ". ");
-                    System.out.println("BookId: " + borrow.get(i).getBookId());
-                    System.out.println("Title: " + borrow.get(i).getBookName());
-                    System.out.println("Edition: " + borrow.get(i).getBookEdition());
-                    System.out.println("");
-                }
-                System.out.print("Please input the book ID: ");
-                String bookID = scan.nextLine();
-                Integer bookIndex = searchBook(bookID);
-                Book temp = books.get(bookIndex);
-                books.set(bookIndex, new Book(temp.getBookId(), temp.getBookName(), temp.getBookEdition(), temp.getBookQuantity() + 1));
-                System.out.println("Do you want to return another book in this transaction? [Y|N]: ");
-                String returnChoice = scan.nextLine();
-                if (returnChoice.equals("Y")) {
-                    continue;
-                } else {
-                    break;
-                }
-            }
+
+            transactionList.set(transactionIndex, new Transaction(data.getTransactionDate(), data.getcustomerId(), data.getTransactionId(), true, data.getBorrowedBookList()));
+
+            System.out.println();
+            System.out.println("Thank you");
+            System.out.println("Press enter to continue...");
+            scan.nextLine();
         }
-        System.out.println("Thank you");
-        System.out.println();
-        System.out.println("Press enter to continue...");
-        scan.nextLine();
+       
     }
 
     private static void customerList() {
