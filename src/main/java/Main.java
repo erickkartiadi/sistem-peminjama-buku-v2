@@ -262,7 +262,7 @@ public class Main {
         boolean isExist = false;
 
         for (int i = 0; i < transactionList.size(); i++) {
-            
+
             Transaction data = transactionList.get(i);
             if(data.getIsReturned() == true){
                 continue;
