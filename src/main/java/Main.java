@@ -214,18 +214,18 @@ public class Main {
         } while (true);
 
         if (num != 0) {
-            Date d = new Date();
-
             LocalDate localDate = LocalDate.now();
 
-            String tranId = "RE";
+            String tranId = "TR";
             int min = 0;
             int max = 9;
 
             Random random = new Random();
 
             int num1 = random.nextInt((max - min) + 1) + min;
-            tranId = tranId + num1;
+            int num2 = random.nextInt((max - min) + 1) + min;
+            int num3 = random.nextInt((max - min) + 1) + min;
+            tranId = tranId + num1 + num2 + num3;
 
             System.out.println("The borrowed book list: ");
             for (int i = 0; i < num; i++) {
@@ -236,10 +236,15 @@ public class Main {
                 System.out.println();
 
                 borrowedBook.add(new BorrowedBook(data.getBookId(), data.getBookName(), data.getBookEdition()));
+                Integer bookIndex = searchBook(data.getBookId().toString());
+                Book temp = books.get(bookIndex);
+                books.set(bookIndex, new Book(temp.getBookId(), temp.getBookName(), temp.getBookEdition(), temp.getBookQuantity() - 1));
             }
             // TODO ganti customer_id
-            transactionList.add(new Transaction(localDate, custId, tranId,false, borrowedBook));
+            transactionList.add(new Transaction(localDate, custId, tranId, false, borrowedBook));
 
+            System.out.println("Transaction has been added successfully with ID : "+tranId);
+            System.out.println("");
         } else {
             System.out.println("You don't have book on the borrowed list");
             System.out.println("Press enter to continue");
