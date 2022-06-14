@@ -62,7 +62,7 @@ public class Main {
                     break;
 
             }
-        } while (choose != 11);
+        } while (choose != 12);
     }
 
     private static void manageUser() {
@@ -257,41 +257,53 @@ public class Main {
     }
 
     private static void showTransaction() {
-        Integer in;
+        int transactionIndex = -1;
+        String id;
+        boolean isExist = false;
 
         for (int i = 0; i < transactionList.size(); i++) {
+            
             Transaction data = transactionList.get(i);
-            System.out.println("No." + (i + 1));
-            System.out.println("Transaction Id: " + data.getTransactionId());
-            System.out.println("Customer Id: " + data.getcustomerId());
-            System.out.println("");
+            if(data.getIsReturned() == true){
+                continue;
+            } else {
+                System.out.println("No." + (i + 1));
+                System.out.println("Transaction Id: " + data.getTransactionId());
+                System.out.println("Customer Id: " + data.getcustomerId());
+                System.out.println("");
+                isExist = true;
+            }
+            
         }
-        do {
-            System.out.println("Choose No. of transaction to view borrowed book list");
-            in = scan.nextInt();
-        } while (in <= 0 || in > transactionList.size());
+
+        if(isExist = true){
+            do {
+                System.out.println("Choose Id of transaction to view borrowed book list");
+                id = scan.nextLine();
+                transactionIndex = searchTransaction(id);
+            } while (transactionIndex == -1);
+        } else {
+            return;
+        }
 
         System.out.println("");
 
-        if (in == 0) {
-            return;
-        } else {
-            Vector<BorrowedBook> borrow = transactionList.get(in - 1).getBorrowedBookList();
-            System.out.println("List of borrowed book: ");
-            for (int j = 0; j < borrow.size(); j++) {
-                System.out.println((j + 1) + ". ");
-                System.out.println("BookId: " + borrow.get(j).getBookId());
-                System.out.println("Title: " + borrow.get(j).getBookName());
-                System.out.println("Edition: " + borrow.get(j).getBookEdition());
-                System.out.println("");
-            }
+        Vector<BorrowedBook> borrow = transactionList.get(transactionIndex).getBorrowedBookList();
+        System.out.println("List of borrowed book: ");
+        for (int j = 0; j < borrow.size(); j++) {
+            System.out.println((j + 1) + ". ");
+            System.out.println("BookId: " + borrow.get(j).getBookId());
+            System.out.println("Title: " + borrow.get(j).getBookName());
+            System.out.println("Edition: " + borrow.get(j).getBookEdition());
+            System.out.println("");
         }
 
     }
 
     private static void showHistory() {
-        Integer in;
-
+        int transactionIndex = -1;
+        String id;
+        boolean isExist = false;
         for (int i = 0; i < transactionList.size(); i++) {
             Transaction data = transactionList.get(i);
             if(data.getIsReturned() == false){
@@ -301,27 +313,29 @@ public class Main {
                 System.out.println("Transaction Id: " + data.getTransactionId());
                 System.out.println("Customer Id: " + data.getcustomerId());
                 System.out.println("");
+                isExist = true;
             }
         }
-        do {
-            System.out.println("Choose No. of transaction to view borrowed book list");
-            in = scan.nextInt();
-        } while (in <= 0 || in > transactionList.size());
+        if(isExist = true){
+            do {
+                System.out.println("Choose Id of transaction to view borrowed book list");
+                id = scan.nextLine();
+                transactionIndex = searchTransaction(id);
+            } while (transactionIndex == -1);
+        } else {
+            return;
+        }
 
         System.out.println("");
 
-        if (in == 0) {
-            return;
-        } else {
-            Vector<BorrowedBook> borrow = transactionList.get(in - 1).getBorrowedBookList();
-            System.out.println("List of borrowed book: ");
-            for (int j = 0; j < borrow.size(); j++) {
-                System.out.println((j + 1) + ". ");
-                System.out.println("BookId: " + borrow.get(j).getBookId());
-                System.out.println("Title: " + borrow.get(j).getBookName());
-                System.out.println("Edition: " + borrow.get(j).getBookEdition());
-                System.out.println("");
-            }
+        Vector<BorrowedBook> borrow = transactionList.get(transactionIndex).getBorrowedBookList();
+        System.out.println("List of borrowed book: ");
+        for (int j = 0; j < borrow.size(); j++) {
+            System.out.println((j + 1) + ". ");
+            System.out.println("BookId: " + borrow.get(j).getBookId());
+            System.out.println("Title: " + borrow.get(j).getBookName());
+            System.out.println("Edition: " + borrow.get(j).getBookEdition());
+            System.out.println("");
         }
 
     }
