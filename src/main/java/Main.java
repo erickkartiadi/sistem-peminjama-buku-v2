@@ -264,6 +264,7 @@ public class Main {
             System.out.println("No." + (i + 1));
             System.out.println("Transaction Id: " + data.getTransactionId());
             System.out.println("Customer Id: " + data.getcustomerId());
+            System.out.println("Transction Date: " + data.getTransactionDate());
             System.out.println("");
         }
         do {
