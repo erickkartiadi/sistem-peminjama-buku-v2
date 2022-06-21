@@ -380,7 +380,7 @@ public class Main {
             System.out.println("Edition: " + borrow.get(j).getBookEdition());
             System.out.println("");
         }
-
+        GlobalFunction.pressContinue();
     }
 
     // private static void removeBook() {
