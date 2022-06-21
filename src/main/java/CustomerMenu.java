@@ -18,26 +18,32 @@ public final class CustomerMenu {
             System.out.println("2. Show User");
             System.out.println("3. Edit User");
             System.out.println("4. Delete User");
-            System.out.println("5. Exit");
+            System.out.println("5. Back To Menu");
             System.out.print(">>");
             choose = scan.nextInt();
             scan.nextLine();
 
             switch (choose) {
                 case 1:
+                    GlobalFunction.cls();
                     addNewUser();
                     break;
                 case 2:
-                    showUser();
+                    GlobalFunction.cls();
+                    userList();
+                    GlobalFunction.showMessage("");
                     break;
                 case 3:
+                    GlobalFunction.cls();
                     editUser();
                     break;
                 case 4:
+                    GlobalFunction.cls();
                     deleteUser();
                     break;
 
             }
+            GlobalFunction.cls();
         } while (choose != 5);
     }
 
@@ -60,6 +66,10 @@ public final class CustomerMenu {
         Date joinedDate = new Date();
         Customer newCustomer = new Customer(username, email, DOB, phoneNumber, joinedDate, 3, 1);
         customerArrayList.add(newCustomer);
+
+        System.out.println();
+        System.out.println("Customer has been successfully inputed");
+        GlobalFunction.pressContinue();
     }
 
     public static String inputPhoneNumber() {
@@ -129,9 +139,15 @@ public final class CustomerMenu {
         return username;
     }
 
+    public static void userList(){
+        showUser();
+        GlobalFunction.pressContinue();
+    }
+
     public static void showUser() {
         int customerArrayListLen = customerArrayList.size();
         if (customerArrayListLen <= 0) {
+            System.out.println();
             System.out.println("Customer list is empty");
             return;
         }
@@ -158,10 +174,11 @@ public final class CustomerMenu {
     public static void editUser() {
         int customerArrayListLen = customerArrayList.size();
         if (customerArrayListLen <= 0) {
+            System.out.println();
             System.out.println("Customer list is empty");
+            GlobalFunction.pressContinue();
             return;
         }
-
 
         showUser();
         int number;
@@ -181,7 +198,7 @@ public final class CustomerMenu {
             System.out.println("2. Email");
             System.out.println("3. Phone Number");
             System.out.println("4. DOB");
-            System.out.println("5. Exit");
+            System.out.println("5. Cancel Edit");
             System.out.print(">>");
             choose = scan.nextInt();
             scan.nextLine();
@@ -190,18 +207,30 @@ public final class CustomerMenu {
                 case 1:
                     String username = inputUsername();
                     currentCustomer.setUsername(username);
+                    System.out.println();
+                    System.out.println("Customer has been successfully edited");
+                    GlobalFunction.pressContinue();
                     break;
                 case 2:
                     String email = inputEmail();
                     currentCustomer.setEmail(email);
+                    System.out.println();
+                    System.out.println("Customer has been successfully edited");
+                    GlobalFunction.pressContinue();
                     break;
                 case 3:
                     String phoneNumber = inputPhoneNumber();
                     currentCustomer.setPhoneNumber(phoneNumber);
+                    System.out.println();
+                    System.out.println("Customer has been successfully edited");
+                    GlobalFunction.pressContinue();
                     break;
                 case 4:
                     Date DOB = inputDOB();
                     currentCustomer.setDOB(DOB);
+                    System.out.println();
+                    System.out.println("Customer has been successfully edited");
+                    GlobalFunction.pressContinue();
                     break;
             }
         } while (choose != 5);
@@ -210,7 +239,9 @@ public final class CustomerMenu {
     public static void deleteUser() {
         int customerArrayListLen = customerArrayList.size();
         if (customerArrayListLen <= 0) {
+            System.out.println();
             System.out.println("Customer list is empty");
+            GlobalFunction.pressContinue();
             return;
         }
 
@@ -221,9 +252,11 @@ public final class CustomerMenu {
             number = scan.nextInt();
             scan.nextLine();
 
+            System.out.println();
+            System.out.println("Customer has been successfully deleted");
+            GlobalFunction.pressContinue();
+
         } while (number > customerArrayListLen || number < 0);
         customerArrayList.remove(number - 1);
     }
-
-
 }
