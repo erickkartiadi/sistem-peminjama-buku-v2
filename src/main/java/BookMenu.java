@@ -50,6 +50,11 @@ public class BookMenu {
 
     private static void removeBook() {
         int bookNumber;
+        if(books.isEmpty()){
+            System.out.println("There is no book available");
+            GlobalFunction.pressContinue();
+            return;
+        }
         viewBooks();
         System.out.print("Enter the number of the book you want to delete: ");
         bookNumber = Integer.parseInt(scan.nextLine());
@@ -62,7 +67,8 @@ public class BookMenu {
 
     private static void editBook() {
         int bookNumber;
-        if(!getAvailability()){
+        if(books.isEmpty()){
+            System.out.println("There is no book available");
             GlobalFunction.pressContinue();
             return;
         }
@@ -96,7 +102,7 @@ public class BookMenu {
                     break;
             }
 
-            if(choose != 4){
+            if(choose > 0 && choose < 4 ){
                 System.out.println();
                 System.out.println("Book has been successfully edited!");
                 GlobalFunction.pressContinue();

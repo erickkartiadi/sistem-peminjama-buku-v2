@@ -281,6 +281,7 @@ public class Main {
 
                 System.out.println("Transaction has been added successfully with ID : "+tranId);
                 System.out.println("");
+                GlobalFunction.pressContinue();
             } else {
                 System.out.println("You don't have book on the borrowed list");
                 System.out.println("Press enter to continue");
